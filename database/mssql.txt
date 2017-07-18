@@ -1,0 +1,42 @@
+Connect to MSSQL
+
+1) Check MSSQL connection
+   nc <Windows IP> 1433
+   
+2) Install Python2/3 develop tool
+   apt-get install python-dev python3-dev
+
+3) Install FreeTDS develop tool
+   apt-get install freetds-dev
+   
+4) Install pymssql pythone package
+   pip install pymssql
+   pip3 install pymssql
+
+5) Test Connection
+   apt-get install freetds-bin
+   tsql -H 10.2.24.141 -p 1433 -U st -P st
+   1> use northwind;
+   2> select * from products;
+   3> go
+   ...
+   1> exit
+   
+6) Create test python program
+
+import pymssql
+conn = pymssql.connect(host='10.2.24.141', user='st', password='st', database='Northwind')
+cur = conn.cursor()
+ 
+cur.execute('SELECT CONVERT(date, CURRENT_TIMESTAMP)')
+row = cur.fetchone()
+while row:
+  print "CURRENT_TIMESTAMP=%s" % (row[0])
+  row = cur.fetchone()
+ 
+conn.close()
+
+
+
+ntext data cannot be sent to clients using DB-Library:
+http://www.bkjia.com/Pythonjc/306544.html
