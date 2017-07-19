@@ -1,0 +1,49 @@
+
+DHT22 Setup
+
+1) Install sensor drivers
+   git clone https://github.com/adafruit/Adafruit_Python_DHT
+
+   # apt-get install build-essential python3-dev   # for python 2
+   apt-get install build-essential python3-dev
+
+   cd Adafruit_Python_DHT
+   # python setup.py install  # for python 2
+   python3 setup.py install
+
+2) Test the installation in python
+python3   # or python command for version 2
+
+要回去目錄的上一層
+>>>import Adafruit_DHT
+# the sensors output pin is connect to board pin number 7
+# which is GPIO numbering pin 4.
+>>>Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, '4')
+
+If everything is fine, this outputs the current humidity and temperature with the first value being the humidity.
+
+3)
+   Run example
+   cd Adafruit_Python_DHT/example
+   python3 AdafruitDHT.py 22 4  # DHT22 and GPIO4
+
+
+Using Device Tree Overlay
+RPi3 with kernel 4.9 default Device tree is enable 
+
+1) nano /boot/config.txt
+   dtoverlay=dht11,gpiopin=4
+
+2) reboot
+
+3) cd /sys/bus/iio/devices/iio\:device0
+   cat name      # device name : dht11@0
+   cat in_humidityrelative_input   # humidity * 1000
+   cat in_temp_input  # temperature * 1000
+
+
+
+
+http://www.knight-of-pi.org/measure-temperature-and-humidity-with-the-sensor-dht22-am2302/
+https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/software-install-updated
+https://www.wemustbegeeks.com/iot-temperature-humidity-to-initial-state-using-a-raspberry-pi-dht22/

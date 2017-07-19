@@ -1,0 +1,85 @@
+Controlling Raspberry Pi GPIO using Android App over Bluetooth
+
+0) If uart serial port is enable, then it will conflict with bluetooth device
+   
+   # Open /boot/config.txt, add "force_turbo=1" to the bottom of the file
+   nano /boot/config.txt
+   force_turbo=1 # core_freq=250
+   
+   reboot 
+   raspbian¤w­×¥¿uart»Pbluetooth½Ä¬ð
+
+1) Install Required Packages for Bluetooth Communication
+   
+   # BlueZ is a open source project and official Linux Bluetooth protocol stack 
+   # It supports all the core Bluetooth protocols and now become part of official Linux Kernel
+   apt-get install bluetooth bluez
+   
+   # Optional Blueman provides the Desktop interface to manage and control the Bluetooth devices
+   apt-get install blueman 
+   
+   # python Library for Bluetooth communication so that we can send and receive data through RFCOMM using Python language
+   apt-get install python-bluez
+ 
+   # GPIO support libraries for Raspberry Pi
+   apt-get install python-rpi.gpio
+   
+   # Install pybluez, need libbluetooth-dev package
+   # to compile to python3 package
+   apt-get install libbluetooth-dev
+   pip3 install pybluez
+   pip2 install pybluez	
+   
+2) Pairing Devices with Raspberry Pi over Bluetooth
+   
+   # open the bluetoothctl utility
+   bluetoothctl
+   
+   in bluetooth shell:
+   
+   [bluetooth]# help
+   [bluetooth]# show
+   [bluetooth]# agent on
+   [bluetooth]# discoverable on
+   [bluetooth]# pairable on
+   [bluetooth]# scan on
+
+   # After the last command ¡§scan on¡¨, you will see your Bluetooth device (Mobile phone) in the list 
+   # Make sure that your mobile has Bluetooth turned on and visible by nearby devices
+   
+   [bluetooth]# pair <address of your phone>
+   [bluetooth]# devices
+   [bluetooth]# info <address of your phone>
+   
+   # Maybe need to re-pair
+   [bluetooth]# devices
+   [bluetooth]# remove <address of your phone>
+   [bluetooth]# pair <address of your phone>
+
+   # Exit bluetoothctl
+   [bluetooth]# exit
+
+   
+3) Run python program on RPi
+   python3 gpipbluetooth.py
+   
+4) In android phone, install bluetooth terminal(blueterm)
+   open app, connect to RPi
+   
+   # if blueterm can not connect to RPi, try to reboot
+     RPi or cell phone
+
+
+   
+Optional:
+   # A2DP is the "Advanced Audio Distribution Profile" which describes how Bluetooth devices can stream 
+   # stereo-quality audio to remote devices. It enables connecting high quality audio bluetooth devices, 
+   # such as headphones and speakers, to your system.
+   apt-get install pulseaudio pulseaudio-module-bluetooth   
+   
+   service bluetooth restart
+   killall pulseaudio
+
+
+https://circuitdigest.com/microcontroller-projects/controlling-raspberry-pi-gpio-using-android-app-over-bluetooth
+

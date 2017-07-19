@@ -13,6 +13,9 @@ Connect to MSSQL
    pip install pymssql
    pip3 install pymssql
 
+5) Test 1433/tcp
+   nc <mssql ip address> 1433
+
 5) Test Connection
    apt-get install freetds-bin
    tsql -H 10.2.24.141 -p 1433 -U st -P st
